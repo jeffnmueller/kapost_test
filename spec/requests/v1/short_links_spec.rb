@@ -31,8 +31,9 @@ RSpec.describe 'Managing short links', type: :request do
       it 'should create a short link' do
         post '/short_link', params: post_params, headers: headers
         expect(response).to be_successful
-        expect(json.dig('long_url')).to eq submitted_url
-        expect(json.dig('short_link')).to eq "http://localhost:3000/#{ShortLink.last.short_link}"
+        expect(response).to match_json_schema('short_link')
+        expect(json.dig('data', 'attributes', 'long_url')).to eq submitted_url
+        expect(json.dig('data', 'attributes', 'short_link')).to eq "http://localhost:3000/#{ShortLink.last.short_link}"
       end
     end
 
@@ -42,7 +43,8 @@ RSpec.describe 'Managing short links', type: :request do
       it 'should not create a short link' do
         post '/short_link', params: post_params, headers: headers
         expect(response.status).to eq 422
-        expect(json.dig('long_url')[0]).to eq 'is not a valid URL'
+        expect(json.dig('errors', 0, 'field')).to eq 'long_url'
+        expect(json.dig('errors', 0, 'detail')).to eq 'is not a valid URL'
       end
     end
 

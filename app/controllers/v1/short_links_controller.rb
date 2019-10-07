@@ -1,4 +1,4 @@
-class V1::ShortLinksController < ApplicationController
+class V1::ShortLinksController < V1::BaseController
   def index
     head :ok
   end
@@ -20,7 +20,7 @@ class V1::ShortLinksController < ApplicationController
     if short_link.save
       render json: short_link
     else
-      render json: short_link.errors, status: :unprocessable_entity
+      error_response(short_link)
     end
   end
 

@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Default Short Link Response",
+  "description": "Default Short Link Response",
+  "type": "object",
+  "required": ["data"],
+  "properties": {
+    "data": {
+      "description": "short link data",
+      "type": "short_link",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "description": "The unique identifier for the short link",
+          "type": "string"
+        },
+        "type": {
+          "description": "data type",
+          "type": "string"
+        },
+        "attributes": {
+          "required": ["short_link", "long_url"],
+          "properties": {
+            "short_link": {
+              "type": "string"
+            },
+            "long_url": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "timestamp"
+            },
+            "updated_at": {
+              "type": "timestamp"
+            }
+          }
+        }
+      }
+    }
+  }
+}
