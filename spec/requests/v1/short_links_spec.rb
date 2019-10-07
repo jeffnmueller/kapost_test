@@ -32,6 +32,7 @@ RSpec.describe 'Managing short links', type: :request do
         post '/short_link', params: post_params, headers: headers
         expect(response).to be_successful
         expect(json.dig('long_url')).to eq submitted_url
+        expect(json.dig('short_link')).to eq "http://localhost:3000/#{ShortLink.last.short_link}"
       end
     end
 

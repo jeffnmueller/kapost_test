@@ -1,4 +1,8 @@
 class V1::ShortLinksController < ApplicationController
+  def index
+    head :ok
+  end
+
   def show
     short_link = ShortLink.where(short_link: params[:id]).first
     if short_link.present?
