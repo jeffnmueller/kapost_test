@@ -1,8 +1,8 @@
 class V1::ShortLinksController < ApplicationController
   def show
-    short_link = ShortLink.where(short_url: params[:id]).first
+    short_link = ShortLink.where(short_link: params[:id]).first
     if short_link.present?
-      redirect_to short_link.url
+      redirect_to short_link.long_url
     else
       response = { status: 'error', code: 404, message: 'Short link not found' }
       render json: response, status: :not_found
@@ -21,6 +21,6 @@ class V1::ShortLinksController < ApplicationController
   private
 
   def short_link_params
-    params.require(:short_link).permit(:url)
+    params.require(:short_link).permit(:long_url)
   end
 end

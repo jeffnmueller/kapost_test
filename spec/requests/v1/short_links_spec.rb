@@ -9,9 +9,9 @@ RSpec.describe 'Managing short links', type: :request do
     let(:short_link) { create(:short_link) }
 
     it 'returns the short link if it exists' do
-      get "/v1/short_links/#{short_link.short_url}", headers: headers
+      get "/v1/short_links/#{short_link.short_link}", headers: headers
       expect(response.status).to eq 302
-      expect(response.redirect_url).to eq short_link.url
+      expect(response.redirect_url).to eq short_link.long_url
     end
 
     it 'returns a 404 if the short link does not exist' do
@@ -29,11 +29,11 @@ RSpec.describe 'Managing short links', type: :request do
         post '/v1/short_links',
           params: {
           short_link: {
-            url: submitted_url
+            long_url: submitted_url
           }
         }, headers: headers
         expect(response).to be_successful
-        expect(json.dig('url')).to eq submitted_url
+        expect(json.dig('long_url')).to eq submitted_url
       end
     end
 
@@ -44,11 +44,11 @@ RSpec.describe 'Managing short links', type: :request do
         post '/v1/short_links',
           params: {
           short_link: {
-            url: submitted_url
+            long_url: submitted_url
           }
         }, headers: headers
         expect(response.status).to eq 422
-        expect(json.dig('url')[0]).to eq 'is not a valid URL'
+        expect(json.dig('long_url')[0]).to eq 'is not a valid URL'
       end
     end
   end
