@@ -9,7 +9,7 @@ gem 'puma', '~> 3.11'
 gem 'jbuilder', '~> 2.7'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.4.2', require: false
-gem 'active_model_serializers'
+gem 'active_model_serializers', require: true
 gem 'validate_url'
 gem 'versionist'
 
