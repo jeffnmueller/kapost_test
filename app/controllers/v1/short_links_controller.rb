@@ -10,6 +10,8 @@ class V1::ShortLinksController < ApplicationController
   end
 
   def create
+    return if short_link_present?
+
     short_link = ShortLink.new(short_link_params)
     if short_link.save
       render json: short_link
@@ -20,7 +22,12 @@ class V1::ShortLinksController < ApplicationController
 
   private
 
+  def short_link_present?
+    short_link = ShortLink.where(long_url: params[:long_url]).first
+    render json: short_link if short_link.present?
+  end
+
   def short_link_params
-    params.require(:short_link).permit(:long_url)
+    params.permit(:long_url)
   end
 end

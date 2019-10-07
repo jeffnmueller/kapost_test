@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Managing short links', type: :request do
   let(:headers) do
-    { 'Accept': 'application/vnd.kapost.com; version=1' }
+    { 'Accept': 'application/json; version=1' }
   end
 
   describe 'GET /v1/short_links/(link_id)' do
@@ -22,16 +22,14 @@ RSpec.describe 'Managing short links', type: :request do
   end
 
   describe 'POST /v1/short_links' do
-    context 'with a valid URL' do
-      let(:submitted_url) { 'https://google.com' }
+    let(:submitted_url) { 'https://google.com' }
+    let(:post_params) do
+      { long_url: submitted_url }
+    end
 
+    context 'with a valid URL' do
       it 'should create a short link' do
-        post '/v1/short_links',
-          params: {
-          short_link: {
-            long_url: submitted_url
-          }
-        }, headers: headers
+        post '/v1/short_links', params: post_params, headers: headers
         expect(response).to be_successful
         expect(json.dig('long_url')).to eq submitted_url
       end
@@ -41,14 +39,21 @@ RSpec.describe 'Managing short links', type: :request do
       let(:submitted_url) { 'not a valid URL' }
 
       it 'should not create a short link' do
-        post '/v1/short_links',
-          params: {
-          short_link: {
-            long_url: submitted_url
-          }
-        }, headers: headers
+        post '/v1/short_links', params: post_params, headers: headers
         expect(response.status).to eq 422
         expect(json.dig('long_url')[0]).to eq 'is not a valid URL'
+      end
+    end
+
+    context 'when the link already exists' do
+      let!(:existing_short_link) do
+        create(:short_link, long_url: 'https://google.com')
+      end
+
+      it 'returns the existing link without creating a new one' do
+        expect do
+          post '/v1/short_links', params: post_params, headers: headers
+        end.to_not change { ShortLink.count }
       end
     end
   end
