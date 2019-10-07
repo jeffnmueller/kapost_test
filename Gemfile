@@ -10,12 +10,14 @@ gem 'jbuilder', '~> 2.7'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'active_model_serializers'
+gem 'validate_url'
 gem 'versionist'
 
 group :development, :test do
   gem 'awesome_print'
   gem 'better_errors', '~> 2.1', '>= 2.1.1'
   gem 'factory_bot_rails'
+  gem 'faker'
   gem 'pry-rails'
   gem 'rspec-rails'
   gem 'shoulda-matchers', '~> 4.0', '>= 4.0.1'
