@@ -1,24 +1,64 @@
-# README
+# Getting Started
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Requirements
 
-Things you may want to cover:
+* Ruby 2.6.5
+* Postgres
 
-* Ruby version
+## Running the application
 
-* System dependencies
+* Clone the repo.
+* From the repository's directory, run the following commands:
 
-* Configuration
+`$ bundle install`
+`$ rake db:setup`
+`$ rails server`
 
-* Database creation
+The application will launch and will be available at `http://localhost:3000`
 
-* Database initialization
+## Creating a short URL
 
-* How to run the test suite
+Payload:
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+{
+  "long_url": "https://alongurl.com"
+}
+```
 
-* Deployment instructions
+Endpoint:
 
-* ...
+`POST http://localhost:3000/short_links`
+
+Response:
+
+```
+{
+  "data":
+  {
+    "id": "83",
+    "type": "short_links",
+    "attributes":
+    {
+      "long_url": "https://alongurl.com",
+      "short_link": "http://localhost:3000/fa2cbd47c073",
+      "created_at": "2019-10-07T22:11:07.986Z",
+      "updated_at": "2019-10-07T22:11:07.986Z"
+    }
+  }
+}
+```
+
+## Visiting a short URL
+
+Endpoint:
+
+`GET http://localhost:3000/fa2cbd47c073`
+
+Response: A 302 redirect to the full URL.
+
+## Running the tests
+
+From the application's directory:
+
+`$ rspec`
