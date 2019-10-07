@@ -2,7 +2,7 @@ class V1::ShortLinksController < ApplicationController
   def show
     short_link = ShortLink.where(short_url: params[:id]).first
     if short_link.present?
-      render json: short_link
+      redirect_to short_link.url
     else
       response = { status: 'error', code: 404, message: 'Short link not found' }
       render json: response, status: :not_found

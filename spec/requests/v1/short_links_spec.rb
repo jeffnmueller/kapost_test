@@ -10,9 +10,8 @@ RSpec.describe 'Managing short links', type: :request do
 
     it 'returns the short link if it exists' do
       get "/v1/short_links/#{short_link.short_url}", headers: headers
-      expect(response).to be_successful
-      expect(json.dig('short_url')).to eq short_link.short_url
-      expect(json.dig('url')).to eq short_link.url
+      expect(response.status).to eq 302
+      expect(response.redirect_url).to eq short_link.url
     end
 
     it 'returns a 404 if the short link does not exist' do
